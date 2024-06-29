@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Currency Converter</title>
+    <link rel="stylesheet" href="styles.css">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f7f7f7;
+            margin: 0;
+            padding: 0;
+        }
+
+        header {
+            background-color: #007bff;
+            color: #fff;
+            padding: 20px;
+            text-align: center;
+        }
+
+        .logo img {
+            width: 150px; /* Adjust the width as needed */
+            height: auto;
+        }
+
+        .logo h1 {
+            font-size: 36px; /* Adjust the font size as needed */
+            margin: 10px 0;
+        }
+
+        nav {
+            text-align: center;
+            margin-top: 20px;
+        }
+
+        nav ul {
+            list-style-type: none;
+            padding: 0;
+        }
+
+        nav ul li {
+            display: inline;
+            margin-right: 20px;
+        }
+
+        nav ul li a {
+            color: #fff;
+            text-decoration: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            background-color: #0056b3;
+            transition: background-color 0.3s ease;
+        }
+
+        nav ul li a:hover {
+            background-color: #004080;
+        }
+
+        .converter {
+            background-color: #fff;
+            padding: 20px;
+            margin: 20px auto;
+            max-width: 600px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .converter h2 {
+            font-size: 28px;
+            margin-bottom: 20px;
+            color: #007bff;
+        }
+
+        .converter-form label {
+            font-weight: bold;
+            color: #333;
+        }
+
+        .converter-form input, 
+        .converter-form select {
+            width: calc(100% - 20px);
+            padding: 10px;
+            margin-bottom: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+
+        .converter-form button {
+            background-color: #007bff;
+            color: #fff;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        .converter-form button:hover {
+            background-color: #0056b3;
+        }
+
+        #result {
+            font-size: 24px;
+            margin-top: 20px;
+            color: #007bff;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="logo">
+            <img src="C:\Users\abdul kareem\Desktop\cc.png" alt="Currency Converter Logo">
+            <h1>CURRENCY CONVERTER</h1>
+        </div>
+        <nav>
+            <ul>
+                <li><a href="index.html">Back to Homepage</a></li>
+            </ul>
+        </nav>
+    </header>
+    <main>
+        <section class="converter">
+            <h2>Currency Converter</h2>
+            <div class="converter-form">
+                <label for="amount">Amount:</label>
+                <input type="number" id="amount" placeholder="Enter amount" step="any">
+                <br><br>
+                <label for="fromCurrency">From:</label>
+                <select id="fromCurrency">
+                    <option value="USD">USD - United States Dollar</option>
+                    <option value="EUR">EUR - Euro</option>
+                    <option value="GBP">GBP - British Pound Sterling</option>
+                    <option value="INR">INR - Indian Rupee</option>
+                    <option value="PKR">PKR - Pakistani Rupee</option>
+                    <option value="KRW">KRW - South Korean Won</option>
+                    <option value="JPY">JPY - Japanese Yen</option>
+                    <option value="AUD">AUD - Australian Dollar</option>
+                    <option value="CAD">CAD - Canadian Dollar</option>
+                    <option value="CHF">CHF - Swiss Franc</option>
+                    <option value="CNY">CNY - Chinese Yuan</option>
+                    <option value="HKD">HKD - Hong Kong Dollar</option>
+                    <option value="SGD">SGD - Singapore Dollar</option>
+                    <!-- Add more currency options as needed -->
+                </select>
+                <br><br>
+                <label for="toCurrency">To:</label>
+                <select id="toCurrency">
+                    <option value="USD">USD - United States Dollar</option>
+                    <option value="EUR">EUR - Euro</option>
+                    <option value="GBP">GBP - British Pound Sterling</option>
+                    <option value="INR">INR - Indian Rupee</option>
+                    <option value="PKR">PKR - Pakistani Rupee</option>
+                    <option value="KRW">KRW - South Korean Won</option>
+                    <option value="JPY">JPY - Japanese Yen</option>
+                    <option value="AUD">AUD - Australian Dollar</option>
+                    <option value="CAD">CAD - Canadian Dollar</option>
+                    <option value="CHF">CHF - Swiss Franc</option>
+                    <option value="CNY">CNY - Chinese Yuan</option>
+                    <option value="HKD">HKD - Hong Kong Dollar</option>
+                    <option value="SGD">SGD - Singapore Dollar</option>
+                    <!-- Add more currency options as needed -->
+                </select>
+                <br><br>
+                <button id="convert">Convert</button>
+                <br><br>
+                <div id="result"></div>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <p>&copy; 2024 Stock Market Prediction</p>
+    </footer>
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script>
+        $(document).ready(function(){
+            $("#convert").click(function(){
+                var amount = $("#amount").val();
+                var fromCurrency = $("#fromCurrency").val();
+                var toCurrency = $("#toCurrency").val();
+                
+                // API URL for fetching exchange rates
+                var apiUrl = "https://api.exchangerate-api.com/v4/latest/" + fromCurrency;
+                
+                // Fetching exchange rates
+                $.get(apiUrl, function(data){
+                    var rate = data.rates[toCurrency];
+                    var convertedAmount = amount * rate;
+                    $("#result").text(convertedAmount.toFixed(2) + " " + toCurrency);
+                });
+            });
+        });
+    </script>
+</body>
+</html>
