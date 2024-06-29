@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>What is Stock Market?</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+    <link rel="stylesheet" href="styles.css">
+    <style>
+        /* Style for logo */
+        .logo img {
+            width: 100px;
+            height: auto;
+        }
+
+        .logo h1 {
+            font-size: 36px;
+            font-weight: bold; /* Make the font bold */
+            letter-spacing: 2px; /* Add spacing between letters */
+        }
+
+        /* Style for content */
+        .content {
+            padding: 20px;
+        }
+
+        .content h2 {
+            color: #333;
+        }
+
+        .content p {
+            margin-bottom: 10px;
+        }
+
+        /* Video background styles */
+        .video-bg {
+            position: fixed;
+            right: 0;
+            bottom: 0;
+            min-width: 100%;
+            min-height: 100%;
+            z-index: -1;
+            object-fit: cover;
+        }
+
+        /* Overlay styles */
+        .overlay {
+            position: relative;
+            z-index: 1;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            color: white;
+            padding-top: 50px; /* Adjust padding for top alignment */
+        }
+
+        body, html {
+            height: 100%;
+            margin: 0;
+            font-family: Arial, Helvetica, sans-serif;
+        }
+
+        .w3-light-grey {
+            background: transparent;
+        }
+
+        /* Header background color */
+        header.w3-container {
+            background-color: black; /* Change background color to black */
+            width: 100%;
+            text-align: center;
+        }
+
+        /* Header text color */
+        header.w3-container .logo h1 {
+            color: white; /* Change text color to white for better contrast */
+            margin: 0; /* Remove margin to ensure it's at the top */
+        }
+
+        /* Button container styles */
+        .button-container {
+            display: grid;
+            grid-template-columns: repeat(3, auto);
+            grid-gap: 20px;
+            margin-top: 30px;
+            gap: 30px; /* Increase gap between buttons */
+        }
+
+        .button-container .w3-button {
+            padding: 15px 30px;
+            font-size: 18px;
+            background-color: rgba(0, 0, 0, 0.7); /* Semi-transparent background */
+            color: white;
+            border: none;
+            cursor: pointer;
+            text-decoration: none;
+            text-align: center;
+        }
+
+        .button-container .w3-button:hover {
+            background-color: rgba(0, 0, 0, 0.9); /* Darker on hover */
+        }
+    </style>
+</head>
+<body class="w3-light-grey">
+    <!-- Video background -->
+    <video autoplay muted loop class="video-bg">
+        <source src="file:///C:/Users/abdul%20kareem/Desktop/bg%20vid.mp4" type="video/mp4">
+        Your browser does not support the video tag.
+    </video>
+
+    <!-- Overlay content -->
+    <div class="overlay">
+        <!-- Header -->
+        <header class="w3-container">
+            <div class="logo">
+                <img src="C:/Users/abdul kareem/Desktop/logo.png" alt="Stock Market Prediction Logo">
+                <h1>STOCK MARKET PREDICTION</h1>
+            </div>
+        </header>
+
+        <!-- Button container -->
+        <div class="button-container">
+            <a href="currency-converter.html" class="w3-button" id="currencyConverterBtn">Currency Converter</a>
+            <a href="About.html" class="w3-button">About Us</a>3
+            <a href="http://127.0.0.1:8000" class="w3-button">NASDAQ STOCK PREDICTIONS</a>
+            <a href="http://127.0.0.1:8080" class="w3-button">NYSE STOCK MARKET</a>
+            <a href="http://127.0.0.1:8010" class="w3-button">SSE STOCK MARKET</a>
+            <a href="http://127.0.0.1:8090" class="w3-button">HKEX STOCK MARKET</a>
+            <a href="http://127.0.0.1:8900" class="w3-button">NSE STOCK MARKET</a>
+        </div>
+    </div>
+</body>
+</html>
+
+
