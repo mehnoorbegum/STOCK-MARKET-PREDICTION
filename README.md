@@ -17,8 +17,14 @@ This project focuses on developing a comprehensive system for stock market predi
 ![Screenshot (65)](https://github.com/mehnoorbegum/STOCK-MARKET-PREDICTION/assets/111074882/dfa4543a-ecd8-4b1c-a942-d67a7d105f3f)
 
 
+![Screenshot (70)](https://github.com/mehnoorbegum/STOCK-MARKET-PREDICTION/assets/111074882/aeddc58c-c8d0-449c-b69b-7ad11fb41d13)
 
 ![Screenshot (64)](https://github.com/mehnoorbegum/STOCK-MARKET-PREDICTION/assets/111074882/f4c13479-43db-4a82-a705-a374741a32c9)
+
+
+
+![Screenshot (69)](https://github.com/mehnoorbegum/STOCK-MARKET-PREDICTION/assets/111074882/dec541af-68ab-4849-87f3-a63a9a9bc611)
+
 
 
 
