@@ -1,0 +1,111 @@
+# Import necessary libraries
+import plotly.graph_objs as go
+from flask import Flask, render_template
+import yfinance as yf
+import pandas as pd
+import numpy as np
+from sklearn.model_selection import train_test_split
+from sklearn.linear_model import LinearRegression
+from datetime import datetime, timedelta
+
+app = Flask(__name__)
+
+# Predefined list of companies listed on NYSE
+companies = {
+    'JNJ': 'Johnson & Johnson',
+    'PG': 'Procter & Gamble Company',
+    'WMT': 'Walmart Inc.',
+    'V': 'Visa Inc.',
+    'UNH': 'UnitedHealth Group Incorporated',
+    'HD': 'The Home Depot Inc.',
+    'MA': 'Mastercard Incorporated',
+    'DIS': 'The Walt Disney Company',
+    'CRM': 'salesforce.com, inc.',
+    'NKE': 'NIKE, Inc.',
+    'BAC': 'Bank of America Corporation',
+    'VZ': 'Verizon Communications Inc.',
+    'KO': 'The Coca-Cola Company',
+    'JPM': 'JPMorgan Chase & Co.',
+    'MRK': 'Merck & Co., Inc.',
+    'MMM': '3M Company',
+    'C': 'Citigroup Inc.',
+    'IBM': 'International Business Machines Corporation',
+    'XOM': 'Exxon Mobil Corporation',
+    'CVX': 'Chevron Corporation'
+}
+
+# Fetching real-time data from Yahoo Finance
+def get_stock_data(ticker, days_back):
+    end_date = datetime.now()
+    start_date = end_date - timedelta(days=days_back)
+    data = yf.download(ticker, start=start_date, end=end_date, interval='1d')
+    return data
+
+# Preprocessing function
+def preprocess_data(data):
+    data['Date'] = data.index
+    data['Date'] = data['Date'].astype('int64')
+    return data
+
+# Train linear regression model
+def train_model(X, y):
+    model = LinearRegression()
+    model.fit(X, y)
+    return model
+
+# Predict function
+def predict(model, X):
+    return model.predict(X)
+
+@app.route('/')
+def index():
+    predictions = {}
+    closing_prices = {}  # Store historical and predicted closing prices
+    
+    days_back = 30  # Number of days to fetch data for prediction
+    
+    for ticker, company in companies.items():
+        data = get_stock_data(ticker, days_back)
+        if data.empty:
+            predictions[company] = ['No data available', '', '', '', '', '', '', '']
+            continue
+        
+        data = preprocess_data(data)
+        
+        X = data[['Date']]
+        y = data['Close']
+        
+        # Creating future dates for prediction
+        last_date = data.index[-1]
+        future_dates = pd.date_range(start=last_date + timedelta(days=1), periods=7)
+        future_dates_int = future_dates.astype('int64').values.reshape(-1, 1)
+        
+        X_future = np.concatenate((X, future_dates_int))
+        
+        X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
+        
+        model = train_model(X_train, y_train)
+        
+        preds = predict(model, X_future)[-7:]
+        prev_price = data['Close'][-1]
+        avg_change = np.mean([pred - prev_price for pred in preds])
+        
+        if avg_change > 0:
+            avg_change_text = f'+{avg_change:.3f}'
+        elif avg_change < 0:
+            avg_change_text = f'-{abs(avg_change):.3f}'
+        else:
+            avg_change_text = '0.000'
+        
+        predictions[company] = [f'Day {i+1}: ${pred:.3f}' for i, pred in enumerate(preds)] + [avg_change_text]
+        
+        # Store historical and predicted closing prices
+        closing_prices[company] = {
+            'dates': data.index.strftime('%Y-%m-%d').tolist() + future_dates.strftime('%Y-%m-%d').tolist(),
+            'closing_prices': data['Close'].tolist() + preds.tolist()
+        }
+    
+    return render_template('NYSE.html', predictions=predictions, closing_prices=closing_prices)
+
+if __name__ == '__main__':
+    app.run(debug=True, port=8080)
